@@ -6,6 +6,9 @@ namespace MagicalTower.Data
 	[CreateAssetMenu(fileName = "EnemyConfig", menuName = "MagicalTower/Configs/Enemy")]
 	public class EnemyConfig : ScriptableObject
 	{
+		[Header("Attack Range Check")]
+		public float AttackRangeCheckInterval = 0.3f;
+		
 		[Header("Stats")]
 		public float MaxHealth = 100f;
 		public float MoveSpeed = 3f;

@@ -5,21 +5,14 @@ namespace MagicalTower.Domain.Enemy.Behaviours
 	[CreateAssetMenu(fileName = "MeleeAttack", menuName = "MagicalTower/Behaviours/Attack/Melee")]
 	public class MeleeAttackBehaviour : AttackBehaviourBase
 	{
-		private float _attackTimer;
-
-		public override void Attack(Transform enemy, Transform target, float deltaTime)
+		public override bool TryAttack(Transform enemy, Transform target, ref float attackTimer, float deltaTime)
 		{
-			_attackTimer += deltaTime;
-			if (_attackTimer < 1f / AttackRate)
-				return;
+			attackTimer += deltaTime;
+			if (attackTimer < 1f / AttackRate)
+				return false;
 
-			_attackTimer = 0f;
-			var distance = Vector3.Distance(enemy.position, target.position);
-			if (distance <= AttackRange)
-				OnAttackLanded(target);
+			attackTimer = 0f;
+			return Vector3.Distance(enemy.position, target.position) <= AttackRange;
 		}
-
-		protected virtual void OnAttackLanded(Transform target)
-		{ }
 	}
 }

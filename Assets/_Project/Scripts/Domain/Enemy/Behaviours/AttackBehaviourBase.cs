@@ -8,6 +8,6 @@ namespace MagicalTower.Domain.Enemy.Behaviours
 		public float AttackRate = 1f;
 		public float AttackRange = 1.5f;
 
-		public abstract void Attack(Transform enemy, Transform target, float deltaTime);
+		public abstract bool TryAttack(Transform enemy, Transform target, ref float attackTimer, float deltaTime);
 	}
 }
