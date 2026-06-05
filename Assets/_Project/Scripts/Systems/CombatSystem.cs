@@ -1,4 +1,6 @@
-﻿using MagicalTower.Domain.Tower;
+﻿using System.Collections.Generic;
+using MagicalTower.Domain.Enemy;
+using MagicalTower.Domain.Tower;
 using VContainer.Unity;
 
 namespace MagicalTower.Systems
@@ -6,17 +8,17 @@ namespace MagicalTower.Systems
 	public class CombatSystem : ITickable
 	{
 		private readonly Tower _tower;
-		private readonly SpawnSystem _spawnSystem;
+		private readonly List<Enemy> _activeEnemies;
 
-		public CombatSystem(Tower tower, SpawnSystem spawnSystem)
+		public CombatSystem(Tower tower, List<Enemy> activeEnemies)
 		{
 			_tower = tower;
-			_spawnSystem = spawnSystem;
+			_activeEnemies = activeEnemies;
 		}
 
 		public void Tick()
 		{
-			_tower.ExecuteSpells(_spawnSystem.ActiveEnemies as System.Collections.Generic.List<Domain.Enemy.Enemy>);
+			_tower.ExecuteSpells(_activeEnemies);
 		}
 	}
 }

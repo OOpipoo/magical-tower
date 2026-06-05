@@ -9,6 +9,9 @@ namespace MagicalTower.Data
 		[Header("Attack Range Check")]
 		public float AttackRangeCheckInterval = 0.3f;
 		
+		[Header("Spawn")]
+		public float SpawnCheckRadius = 1f;
+		
 		[Header("Stats")]
 		public float MaxHealth = 100f;
 		public float MoveSpeed = 3f;
@@ -16,13 +19,11 @@ namespace MagicalTower.Data
 		[Header("Visual")]
 		public Vector3 Scale = Vector3.one;
 		public GameObject Prefab;
-
+		
 		[Header("Behaviours")]
 		public MovementBehaviourBase Movement;
 		public AttackBehaviourBase Attack;
 		public DeathBehaviourBase Death;
-
-		[Header("Reward")]
-		public int ScoreValue = 10;
+		
 	}
 }

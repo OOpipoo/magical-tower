@@ -16,9 +16,12 @@ namespace MagicalTower.Systems
         private float _gameTime;
         private float _spawnTimer;
         private WavePeriod _currentPeriod;
+        
+        private readonly Collider[] _spawnCheckBuffer = new Collider[10];
 
         public IReadOnlyList<Enemy> ActiveEnemies => _activeEnemies;
 
+        
         public SpawnSystem(
             EnemyFactory enemyFactory,
             WaveConfig waveConfig,
@@ -29,6 +32,7 @@ namespace MagicalTower.Systems
             _waveConfig = waveConfig;
             _camera = camera;
             _activeEnemies = activeEnemies;
+            _currentPeriod = _waveConfig.Periods[0];
         }
 
         public void Tick()
@@ -60,9 +64,28 @@ namespace MagicalTower.Systems
             if (_currentPeriod.EnemyPool.Count == 0) return;
 
             var config = _currentPeriod.EnemyPool[Random.Range(0, _currentPeriod.EnemyPool.Count)];
-            var spawnPosition = GetSpawnPositionOutsideScreen();
-            var enemy = _enemyFactory.Create(config, spawnPosition);
+            var spawnPosition = GetValidSpawnPosition(config);
+
+            if (spawnPosition == null) return;
+
+            var enemy = _enemyFactory.Create(config, spawnPosition.Value);
             _activeEnemies.Add(enemy);
+        }
+        
+        
+
+        private Vector3? GetValidSpawnPosition(EnemyConfig config, int maxAttempts = 10)
+        {
+            for (int i = 0; i < maxAttempts; i++)
+            {
+                var position = GetSpawnPositionOutsideScreen();
+                var hits = Physics.OverlapSphereNonAlloc(position, config.SpawnCheckRadius, _spawnCheckBuffer);
+
+                if (hits == 0)
+                    return position;
+            }
+
+            return null;
         }
 
         private Vector3 GetSpawnPositionOutsideScreen()
