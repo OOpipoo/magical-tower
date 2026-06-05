@@ -22,7 +22,6 @@ namespace MagicalTower.Infrastructure
         [SerializeField] private Camera _camera;
 
         [Header("Prefabs")]
-        [SerializeField] private EnemyHealthBar _enemyHealthBarPrefab;
         [SerializeField] private DamageNumber _damageNumberPrefab;
 
         [Header("Pool Parents")]
@@ -68,17 +67,9 @@ namespace MagicalTower.Infrastructure
 
         private void RegisterUI(IContainerBuilder builder)
         {
-            builder.Register<ObjectPool<EnemyHealthBar>>(Lifetime.Singleton)
-                   .WithParameter(_enemyHealthBarPrefab)
-                   .WithParameter(_uiPoolParent);
-
             builder.Register<ObjectPool<DamageNumber>>(Lifetime.Singleton)
                    .WithParameter(_damageNumberPrefab)
                    .WithParameter(_uiPoolParent);
-
-            builder.Register<UIWorldProjectionContainer<EnemyHealthBar>>(Lifetime.Singleton)
-                   .AsImplementedInterfaces()
-                   .AsSelf();
 
             builder.Register<UIWorldProjectionContainer<DamageNumber>>(Lifetime.Singleton)
                    .AsImplementedInterfaces()
