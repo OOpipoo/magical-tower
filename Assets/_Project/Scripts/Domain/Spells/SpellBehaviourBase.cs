@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace MagicalTower.Domain.Spells
 {
@@ -10,6 +10,6 @@ namespace MagicalTower.Domain.Spells
 		public float ProjectileSpeed = 10f;
 		public GameObject ProjectilePrefab;
 
-		public abstract void Execute(Vector3 origin, List<GameObject> targets);
+		public abstract ISpellCommand CreateCommand();
 	}
 }
