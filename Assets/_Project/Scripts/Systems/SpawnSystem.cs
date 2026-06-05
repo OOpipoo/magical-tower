@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using MagicalTower.Core;
 using MagicalTower.Data;
 using MagicalTower.Domain.Enemy;
 using UnityEngine;
@@ -6,33 +7,39 @@ using VContainer.Unity;
 
 namespace MagicalTower.Systems
 {
-    public class SpawnSystem : ITickable
+    public class SpawnSystem : ITickable, IInitializable
     {
         private readonly EnemyFactory _enemyFactory;
         private readonly WaveConfig _waveConfig;
         private readonly Camera _camera;
         private readonly List<Enemy> _activeEnemies;
+        private readonly EventBus _eventBus;
+        private readonly Collider[] _spawnCheckBuffer = new Collider[10];
 
         private float _gameTime;
         private float _spawnTimer;
         private WavePeriod _currentPeriod;
-        
-        private readonly Collider[] _spawnCheckBuffer = new Collider[10];
 
         public IReadOnlyList<Enemy> ActiveEnemies => _activeEnemies;
 
-        
         public SpawnSystem(
             EnemyFactory enemyFactory,
             WaveConfig waveConfig,
             Camera camera,
-            List<Enemy> activeEnemies)
+            List<Enemy> activeEnemies,
+            EventBus eventBus)
         {
             _enemyFactory = enemyFactory;
             _waveConfig = waveConfig;
             _camera = camera;
             _activeEnemies = activeEnemies;
+            _eventBus = eventBus;
             _currentPeriod = _waveConfig.Periods[0];
+        }
+
+        public void Initialize()
+        {
+            _eventBus.Subscribe<GameEvents.EnemyDiedEvent>(OnEnemyDied);
         }
 
         public void Tick()
@@ -71,8 +78,6 @@ namespace MagicalTower.Systems
             var enemy = _enemyFactory.Create(config, spawnPosition.Value);
             _activeEnemies.Add(enemy);
         }
-        
-        
 
         private Vector3? GetValidSpawnPosition(EnemyConfig config, int maxAttempts = 10)
         {
@@ -106,8 +111,11 @@ namespace MagicalTower.Systems
             return ray.GetPoint(20f);
         }
 
-        public void RemoveEnemy(Enemy enemy)
+        private void OnEnemyDied(GameEvents.EnemyDiedEvent evt)
         {
+            var enemy = evt.Enemy.GetComponent<Enemy>();
+            if (enemy == null) return;
+
             _activeEnemies.Remove(enemy);
             _enemyFactory.Return(enemy);
         }

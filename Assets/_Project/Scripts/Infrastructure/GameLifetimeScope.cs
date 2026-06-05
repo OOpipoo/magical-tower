@@ -55,9 +55,9 @@ namespace MagicalTower.Infrastructure
 
         private void RegisterSystems(IContainerBuilder builder)
         {
-            builder.Register<SpawnSystem>(Lifetime.Singleton)
-                   .AsImplementedInterfaces()
-                   .AsSelf();
+			builder.Register<SpawnSystem>(Lifetime.Singleton)
+				.AsImplementedInterfaces()
+				.AsSelf();
 
             builder.Register<CombatSystem>(Lifetime.Singleton)
                    .AsImplementedInterfaces()
