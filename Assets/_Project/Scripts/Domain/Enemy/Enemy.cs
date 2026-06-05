@@ -54,7 +54,7 @@ namespace MagicalTower.Domain.Enemy
             if (_isInAttackRange)
             {
                 if (_attack.TryAttack(transform, _towerTransform, ref _attackTimer, Time.deltaTime))
-                    _eventBus.Publish(new GameEvents.TowerDamagedEvent(0, 0));
+                    _eventBus.Publish(new GameEvents.EnemyAttackedTowerEvent(Config.Attack.Damage));
             }
             else
             {

@@ -26,20 +26,28 @@ namespace MagicalTower.Core
 			}
 		}
 
-		public struct TowerDamagedEvent
+		public struct EnemyAttackedTowerEvent
+		{
+			public float Damage;
+
+			public EnemyAttackedTowerEvent(float damage)
+			{
+				Damage = damage;
+			}
+		}
+
+		public struct TowerHealthChangedEvent
 		{
 			public float CurrentHealth;
 			public float MaxHealth;
 
-			public TowerDamagedEvent(float currentHealth, float maxHealth)
+			public TowerHealthChangedEvent(float currentHealth, float maxHealth)
 			{
 				CurrentHealth = currentHealth;
 				MaxHealth = maxHealth;
 			}
 		}
 
-		public struct GameOverEvent
-		{
-		}
+		public struct GameOverEvent { }
 	}
 }
