@@ -31,15 +31,15 @@ namespace MagicalTower.Domain.Tower
 			foreach (var spell in _spells)
 				_spellCommands.Add(spell.CreateCommand());
 
-			_eventBus.Subscribe<GameEvents.TowerDamagedEvent>(OnTowerDamaged);
+			_eventBus.Subscribe<GameEvents.TowerHealthChangedEvent>(OnTowerHealthChanged);
 		}
 
 		private void OnDestroy()
 		{
-			_eventBus.Unsubscribe<GameEvents.TowerDamagedEvent>(OnTowerDamaged);
+			_eventBus.Unsubscribe<GameEvents.TowerHealthChangedEvent>(OnTowerHealthChanged);
 		}
 
-		private void OnTowerDamaged(GameEvents.TowerDamagedEvent evt)
+		private void OnTowerHealthChanged(GameEvents.TowerHealthChangedEvent evt)
 		{
 			if (evt.CurrentHealth <= 0f)
 				gameObject.SetActive(false);

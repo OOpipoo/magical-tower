@@ -18,11 +18,13 @@ namespace MagicalTower.Domain.Enemy
         private float _rangeCheckTimer;
         private bool _isInAttackRange;
 
+        private float _burnDamagePerSecond;
+        private float _burnTimeRemaining;
+
         public float HealthPercent => _currentHealth / Config.MaxHealth;
         public bool IsAlive { get; private set; }
         public EnemyConfig Config { get; private set; }
 
-        
         public void Initialize(
             EnemyConfig config,
             Transform towerTransform,
@@ -41,6 +43,8 @@ namespace MagicalTower.Domain.Enemy
             _isInAttackRange = false;
             _rangeCheckTimer = 0f;
             _attackTimer = 0f;
+            _burnDamagePerSecond = 0f;
+            _burnTimeRemaining = 0f;
 
             transform.localScale = config.Scale;
         }
@@ -49,6 +53,7 @@ namespace MagicalTower.Domain.Enemy
         {
             if (!IsAlive) return;
 
+            UpdateBurn();
             UpdateRangeCheck();
 
             if (_isInAttackRange)
@@ -69,8 +74,22 @@ namespace MagicalTower.Domain.Enemy
                 return;
 
             _rangeCheckTimer = 0f;
-            _isInAttackRange = Vector3.Distance(transform.position, _towerTransform.position) 
+            _isInAttackRange = Vector3.Distance(transform.position, _towerTransform.position)
                                <= _attack.AttackRange;
+        }
+
+        private void UpdateBurn()
+        {
+            if (_burnTimeRemaining <= 0f) return;
+
+            _burnTimeRemaining -= Time.deltaTime;
+            TakeDamage(_burnDamagePerSecond * Time.deltaTime);
+        }
+
+        public void ApplyBurn(float damagePerSecond, float duration)
+        {
+            _burnDamagePerSecond = damagePerSecond;
+            _burnTimeRemaining = duration;
         }
 
         public void TakeDamage(float amount)
@@ -98,6 +117,8 @@ namespace MagicalTower.Domain.Enemy
             _currentHealth = 0f;
             _attackTimer = 0f;
             _rangeCheckTimer = 0f;
+            _burnDamagePerSecond = 0f;
+            _burnTimeRemaining = 0f;
         }
     }
 }
