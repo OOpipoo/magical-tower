@@ -8,7 +8,8 @@ namespace MagicalTower.UI
 {
 	public class TowerHealthBarPresenter : MonoBehaviour, IInitializable
 	{
-		[SerializeField] private Image _fillImage;
+		[SerializeField] private Image _healthFill;
+		[SerializeField] private Image _damageFill;
 
 		private EventBus _eventBus;
 
@@ -25,12 +26,13 @@ namespace MagicalTower.UI
 
 		private void OnDestroy()
 		{
-			_eventBus.Unsubscribe<GameEvents.TowerHealthChangedEvent>(OnTowerHealthChanged);
+			_eventBus?.Unsubscribe<GameEvents.TowerHealthChangedEvent>(OnTowerHealthChanged);
 		}
 
 		private void OnTowerHealthChanged(GameEvents.TowerHealthChangedEvent evt)
 		{
-			_fillImage.fillAmount = evt.CurrentHealth / evt.MaxHealth;
+			var percent = evt.CurrentHealth / evt.MaxHealth;
+			_healthFill.fillAmount = percent;
 		}
 	}
 }

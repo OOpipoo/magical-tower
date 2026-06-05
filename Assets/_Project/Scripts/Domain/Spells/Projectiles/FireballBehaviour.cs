@@ -18,6 +18,7 @@ namespace MagicalTower.Domain.Spells
 	public class FireballCommand : ISpellCommand
 	{
 		private readonly FireballBehaviour _config;
+		private DamageSystem _damageSystem;
 		private float _cooldownTimer;
 
 		public bool IsReady => _cooldownTimer <= 0f;
@@ -25,7 +26,12 @@ namespace MagicalTower.Domain.Spells
 		public FireballCommand(FireballBehaviour config)
 		{
 			_config = config;
-			_cooldownTimer = 0f;
+			_cooldownTimer = config.Cooldown;;
+		}
+
+		public void SetContext(DamageSystem damageSystem)
+		{
+			_damageSystem = damageSystem;
 		}
 
 		public void Tick(float deltaTime)
@@ -43,6 +49,15 @@ namespace MagicalTower.Domain.Spells
 
 			var projectileGo = Object.Instantiate(_config.ProjectilePrefab, origin, Quaternion.identity);
 			var projectile = projectileGo.GetComponent<FireballProjectile>();
+			projectile.Initialize(
+				direction,
+				_config.ProjectileSpeed,
+				_config.Damage,
+				_config.AoeRadius,
+				_config.BurnDamagePerSecond,
+				_config.BurnDuration,
+				_damageSystem,
+				targets);
 
 			_cooldownTimer = _config.Cooldown;
 		}

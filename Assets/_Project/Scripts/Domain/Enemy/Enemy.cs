@@ -1,5 +1,7 @@
-﻿using MagicalTower.Core;
+﻿using System.Collections.Generic;
+using MagicalTower.Core;
 using MagicalTower.Data;
+using MagicalTower.Domain.Effects;
 using MagicalTower.Domain.Enemy.Behaviours;
 using UnityEngine;
 
@@ -18,8 +20,8 @@ namespace MagicalTower.Domain.Enemy
         private float _rangeCheckTimer;
         private bool _isInAttackRange;
 
-        private float _burnDamagePerSecond;
-        private float _burnTimeRemaining;
+        private readonly List<StatusEffect> _effects = new();
+        private readonly List<StatusEffect> _expiredEffects = new();
 
         public float HealthPercent => _currentHealth / Config.MaxHealth;
         public bool IsAlive { get; private set; }
@@ -43,8 +45,6 @@ namespace MagicalTower.Domain.Enemy
             _isInAttackRange = false;
             _rangeCheckTimer = 0f;
             _attackTimer = 0f;
-            _burnDamagePerSecond = 0f;
-            _burnTimeRemaining = 0f;
 
             transform.localScale = config.Scale;
         }
@@ -53,7 +53,7 @@ namespace MagicalTower.Domain.Enemy
         {
             if (!IsAlive) return;
 
-            UpdateBurn();
+            UpdateEffects();
             UpdateRangeCheck();
 
             if (_isInAttackRange)
@@ -78,18 +78,21 @@ namespace MagicalTower.Domain.Enemy
                                <= _attack.AttackRange;
         }
 
-        private void UpdateBurn()
+        private void UpdateEffects()
         {
-            if (_burnTimeRemaining <= 0f) return;
+            for (int i = _effects.Count - 1; i >= 0; i--)
+            {
+                var effect = _effects[i];
+                effect.Tick(this, Time.deltaTime);
 
-            _burnTimeRemaining -= Time.deltaTime;
-            TakeDamage(_burnDamagePerSecond * Time.deltaTime);
+                if (effect.IsExpired)
+                    _effects.RemoveAt(i);
+            }
         }
 
-        public void ApplyBurn(float damagePerSecond, float duration)
+        public void AddEffect(StatusEffect effect)
         {
-            _burnDamagePerSecond = damagePerSecond;
-            _burnTimeRemaining = duration;
+            _effects.Add(effect);
         }
 
         public void TakeDamage(float amount)
@@ -117,8 +120,8 @@ namespace MagicalTower.Domain.Enemy
             _currentHealth = 0f;
             _attackTimer = 0f;
             _rangeCheckTimer = 0f;
-            _burnDamagePerSecond = 0f;
-            _burnTimeRemaining = 0f;
+            _effects.Clear();
+            _expiredEffects.Clear();
         }
     }
 }

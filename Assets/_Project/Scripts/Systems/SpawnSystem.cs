@@ -15,6 +15,7 @@ namespace MagicalTower.Systems
         private readonly List<Enemy> _activeEnemies;
         private readonly EventBus _eventBus;
         private readonly Collider[] _spawnCheckBuffer = new Collider[10];
+        private int _enemyLayerMask;
 
         private float _gameTime;
         private float _spawnTimer;
@@ -35,6 +36,7 @@ namespace MagicalTower.Systems
             _activeEnemies = activeEnemies;
             _eventBus = eventBus;
             _currentPeriod = _waveConfig.Periods[0];
+            _enemyLayerMask = LayerMask.GetMask("Enemy");
         }
 
         public void Initialize()
@@ -68,12 +70,18 @@ namespace MagicalTower.Systems
 
         private void SpawnEnemy()
         {
-            if (_currentPeriod.EnemyPool.Count == 0) return;
+            if (_currentPeriod.EnemyPool.Count == 0)
+            {
+                return;
+            }
 
             var config = _currentPeriod.EnemyPool[Random.Range(0, _currentPeriod.EnemyPool.Count)];
             var spawnPosition = GetValidSpawnPosition(config);
 
-            if (spawnPosition == null) return;
+            if (spawnPosition == null)
+            {
+                return;
+            }
 
             var enemy = _enemyFactory.Create(config, spawnPosition.Value);
             _activeEnemies.Add(enemy);
@@ -84,7 +92,11 @@ namespace MagicalTower.Systems
             for (int i = 0; i < maxAttempts; i++)
             {
                 var position = GetSpawnPositionOutsideScreen();
-                var hits = Physics.OverlapSphereNonAlloc(position, config.SpawnCheckRadius, _spawnCheckBuffer);
+                var hits = Physics.OverlapSphereNonAlloc(
+                    position, 
+                    config.SpawnCheckRadius, 
+                    _spawnCheckBuffer,
+                    _enemyLayerMask);
 
                 if (hits == 0)
                     return position;

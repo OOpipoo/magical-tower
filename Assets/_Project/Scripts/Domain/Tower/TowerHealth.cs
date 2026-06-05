@@ -26,7 +26,7 @@ namespace MagicalTower.Domain.Tower
 			if (_isDead) return;
 
 			_currentHealth = Mathf.Max(0f, _currentHealth - amount);
-			_eventBus.Publish(new GameEvents.TowerHealthChangedEvent(_currentHealth, _maxHealth));
+			_eventBus.Publish(new GameEvents.TowerHealthChangedEvent(_currentHealth, _maxHealth, amount));
 
 			if (_currentHealth <= 0f)
 				Die();

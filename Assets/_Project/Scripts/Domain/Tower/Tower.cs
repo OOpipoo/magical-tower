@@ -1,42 +1,50 @@
 ﻿using System.Collections.Generic;
 using MagicalTower.Core;
 using MagicalTower.Domain.Spells;
+using MagicalTower.Systems;
 using UnityEngine;
 using VContainer;
+using VContainer.Unity;
 
 namespace MagicalTower.Domain.Tower
 {
-	public class Tower : MonoBehaviour
+	public class Tower : MonoBehaviour, IInitializable
 	{
 		[SerializeField] private float _maxHealth = 500f;
 		[SerializeField] private List<SpellBehaviourBase> _spells = new();
 
 		private TowerHealth _health;
 		private EventBus _eventBus;
+		private DamageSystem _damageSystem;
 		private List<ISpellCommand> _spellCommands = new();
 
 		public Transform Transform => transform;
 
 		[Inject]
-		public void Construct(EventBus eventBus)
+		public void Construct(EventBus eventBus, TowerHealth health, DamageSystem damageSystem)
 		{
 			_eventBus = eventBus;
+			_health = health;
+			_damageSystem = damageSystem;
 		}
 
-		private void Start()
+		public void Initialize()
 		{
-			_health = GetComponent<TowerHealth>();
 			_health.Initialize(_maxHealth, _eventBus);
 
 			foreach (var spell in _spells)
-				_spellCommands.Add(spell.CreateCommand());
+			{
+				var command = spell.CreateCommand();
+				command.SetContext(_damageSystem);
+				_spellCommands.Add(command);
+			}
 
 			_eventBus.Subscribe<GameEvents.TowerHealthChangedEvent>(OnTowerHealthChanged);
 		}
 
 		private void OnDestroy()
 		{
-			_eventBus.Unsubscribe<GameEvents.TowerHealthChangedEvent>(OnTowerHealthChanged);
+			_eventBus?.Unsubscribe<GameEvents.TowerHealthChangedEvent>(OnTowerHealthChanged);
 		}
 
 		private void OnTowerHealthChanged(GameEvents.TowerHealthChangedEvent evt)

@@ -1,46 +1,44 @@
 ﻿using DG.Tweening;
-using MagicalTower.UI.Core;
 using TMPro;
 using UnityEngine;
+using System;
 
 namespace MagicalTower.UI
 {
-	public class DamageNumber : MonoBehaviour, IProjectedUI
+	public class DamageNumber : MonoBehaviour
 	{
 		[SerializeField] private TextMeshProUGUI _text;
 
 		public RectTransform RectTransform { get; private set; }
-		public Vector3 WorldOffset => Vector3.up * 2f;
+		private Sequence _sequence;
 
 		private void Awake()
 		{
 			RectTransform = GetComponent<RectTransform>();
 		}
 
-		public void Show(float amount, Vector3 worldPosition)
+		public void Show(float amount, System.Action onComplete)
 		{
-			_text.text = Mathf.RoundToInt(amount).ToString();
+			if (amount < 1f)
+			{
+				onComplete?.Invoke();
+				return;
+			}
 
-			RectTransform
-				.DOAnchorPosY(RectTransform.anchoredPosition.y + 50f, 0.8f)
-				.SetEase(Ease.OutCubic);
+			_sequence?.Kill();
 
-			_text.DOFade(0f, 0.8f)
-				.SetEase(Ease.InCubic)
-				.OnComplete(OnReturn);
-		}
-
-		public void OnSpawn()
-		{
-			gameObject.SetActive(true);
 			var color = _text.color;
 			color.a = 1f;
 			_text.color = color;
-		}
+			_text.text = Mathf.RoundToInt(amount).ToString();
 
-		public void OnReturn()
-		{
-			gameObject.SetActive(false);
+			var startPos = RectTransform.position;
+			var endPos = startPos + Vector3.up * 50f;
+
+			_sequence = DOTween.Sequence();
+			_sequence.Append(RectTransform.DOMove(endPos, 0.8f).SetEase(Ease.OutCubic));
+			_sequence.Join(_text.DOFade(0f, 0.8f).SetEase(Ease.InCubic));
+			_sequence.OnComplete(() => onComplete?.Invoke());
 		}
 	}
 }

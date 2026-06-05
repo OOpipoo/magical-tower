@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using MagicalTower.Core;
+using MagicalTower.Domain.Effects;
 using MagicalTower.Domain.Enemy;
 using MagicalTower.Domain.Tower;
 using UnityEngine;
@@ -26,7 +27,8 @@ namespace MagicalTower.Systems
 
 		public void DealAoeDamage(Vector3 center, float radius, float amount, List<Enemy> enemies)
 		{
-			foreach (var enemy in enemies)
+			var snapshot = new List<Enemy>(enemies);
+			foreach (var enemy in snapshot)
 			{
 				if (!enemy.IsAlive) continue;
 				if (Vector3.Distance(center, enemy.transform.position) <= radius)
@@ -36,7 +38,7 @@ namespace MagicalTower.Systems
 
 		public void ApplyBurn(Enemy enemy, float damagePerSecond, float duration)
 		{
-			// enemy.ApplyBurn(damagePerSecond, duration);
+			enemy.AddEffect(new BurnEffect(damagePerSecond, duration));
 		}
 
 		private void OnEnemyAttackedTower(GameEvents.EnemyAttackedTowerEvent evt)

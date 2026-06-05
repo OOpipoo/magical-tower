@@ -15,7 +15,7 @@ MonoBehaviour:
   Cooldown: 4
   Damage: 40
   ProjectileSpeed: 8
-  ProjectilePrefab: {fileID: 0}
+  ProjectilePrefab: {fileID: 7899449103700866, guid: 47df5a412e229374fb3e6eec390d9928, type: 3}
   AoeRadius: 8
   BurnDamagePerSecond: 5
   BurnDuration: 3

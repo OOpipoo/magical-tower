@@ -19,6 +19,7 @@ namespace MagicalTower.Infrastructure
 
         [Header("Scene References")]
         [SerializeField] private Tower _tower;
+		[SerializeField] private TowerHealth _towerHealth;
         [SerializeField] private Camera _camera;
 
         [Header("Prefabs")]
@@ -28,60 +29,65 @@ namespace MagicalTower.Infrastructure
         [SerializeField] private Transform _enemyPoolParent;
         [SerializeField] private Transform _uiPoolParent;
 
-		
-        protected override void Configure(IContainerBuilder builder)
-        {
-            RegisterCore(builder);
-            RegisterFactories(builder);
-            RegisterSystems(builder);
-            RegisterUI(builder);
-        }
 
-        private void RegisterCore(IContainerBuilder builder)
-        {
-            builder.RegisterInstance(new EventBus());
-            builder.RegisterInstance(new List<Enemy>());
-            builder.RegisterInstance(_waveConfig);
-            builder.RegisterInstance(_camera);
-            builder.RegisterInstance(_tower);
-            builder.RegisterInstance(_tower.GetComponent<TowerHealth>());
-        }
+		protected override void Configure(IContainerBuilder builder)
+		{
+			RegisterCore(builder);
+			RegisterFactories(builder);
+			RegisterSystems(builder);
+			RegisterUI(builder);
+		}
 
-        private void RegisterFactories(IContainerBuilder builder)
-        {
-            builder.Register<EnemyFactory>(Lifetime.Singleton).WithParameter(_enemyPoolParent);
-        }
+		private void RegisterCore(IContainerBuilder builder)
+		{
+			var eventBus = new EventBus();
+			var activeEnemies = new List<Enemy>();
 
-        private void RegisterSystems(IContainerBuilder builder)
-        {
+			builder.RegisterInstance(eventBus);
+			builder.RegisterInstance(activeEnemies);
+			builder.RegisterInstance(_waveConfig);
+			builder.RegisterInstance(_camera);
+			builder.RegisterInstance(_towerHealth);
+    
+			builder.RegisterComponent(_tower)
+				.AsImplementedInterfaces()
+				.AsSelf();
+		}
+
+		private void RegisterFactories(IContainerBuilder builder)
+		{
+			builder.Register(resolver => new EnemyFactory(
+				_enemyPoolParent,
+				_tower.transform,
+				resolver.Resolve<EventBus>()
+			), Lifetime.Singleton);
+		}
+
+		private void RegisterSystems(IContainerBuilder builder)
+		{
 			builder.Register<SpawnSystem>(Lifetime.Singleton)
 				.AsImplementedInterfaces()
 				.AsSelf();
 
-            builder.Register<CombatSystem>(Lifetime.Singleton)
-                   .AsImplementedInterfaces()
-                   .AsSelf();
+			builder.Register<CombatSystem>(Lifetime.Singleton)
+				.AsImplementedInterfaces()
+				.AsSelf();
 
-            builder.Register<DamageSystem>(Lifetime.Singleton);
-        }
+			builder.Register<DamageSystem>(Lifetime.Singleton);
+		}
 
-        private void RegisterUI(IContainerBuilder builder)
-        {
-            builder.Register<ObjectPool<DamageNumber>>(Lifetime.Singleton)
-                   .WithParameter(_damageNumberPrefab)
-                   .WithParameter(_uiPoolParent);
+		private void RegisterUI(IContainerBuilder builder)
+		{
+			builder.RegisterInstance(
+				new ObjectPool<DamageNumber>(_damageNumberPrefab, _uiPoolParent, 10));
 
-            builder.Register<UIWorldProjectionContainer<DamageNumber>>(Lifetime.Singleton)
-                   .AsImplementedInterfaces()
-                   .AsSelf();
+			builder.RegisterComponentInHierarchy<TowerHealthBarPresenter>()
+				.AsImplementedInterfaces()
+				.AsSelf();
 
-            builder.RegisterComponentInHierarchy<TowerHealthBarPresenter>()
-                   .AsImplementedInterfaces()
-                   .AsSelf();
-
-            builder.RegisterComponentInHierarchy<DamageNumberPresenter>()
-                   .AsImplementedInterfaces()
-                   .AsSelf();
-        }
-    }
+			builder.RegisterComponentInHierarchy<DamageNumberPresenter>()
+				.AsImplementedInterfaces()
+				.AsSelf();
+		}
+	}
 }

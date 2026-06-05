@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using MagicalTower.Domain.Spells.Projectiles;
+using MagicalTower.Systems;
 using UnityEngine;
 
 namespace MagicalTower.Domain.Spells
@@ -15,6 +16,7 @@ namespace MagicalTower.Domain.Spells
 	public class BarrageCommand : ISpellCommand
 	{
 		private readonly BarrageBehaviour _config;
+		private DamageSystem _damageSystem;
 		private float _cooldownTimer;
 
 		public bool IsReady => _cooldownTimer <= 0f;
@@ -22,7 +24,12 @@ namespace MagicalTower.Domain.Spells
 		public BarrageCommand(BarrageBehaviour config)
 		{
 			_config = config;
-			_cooldownTimer = 0f;
+			_cooldownTimer = config.Cooldown;
+		}
+
+		public void SetContext(DamageSystem damageSystem)
+		{
+			_damageSystem = damageSystem;
 		}
 
 		public void Tick(float deltaTime)
@@ -39,6 +46,12 @@ namespace MagicalTower.Domain.Spells
 			{
 				var projectileGo = Object.Instantiate(_config.ProjectilePrefab, origin, Quaternion.identity);
 				var projectile = projectileGo.GetComponent<BarrageProjectile>();
+				projectile.Initialize(
+					target,
+					_config.ProjectileSpeed,
+					_config.Damage,
+					_config.ArcHeight,
+					_damageSystem);
 			}
 
 			_cooldownTimer = _config.Cooldown;

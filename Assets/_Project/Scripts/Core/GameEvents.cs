@@ -40,11 +40,13 @@ namespace MagicalTower.Core
 		{
 			public float CurrentHealth;
 			public float MaxHealth;
+			public float Damage;
 
-			public TowerHealthChangedEvent(float currentHealth, float maxHealth)
+			public TowerHealthChangedEvent(float currentHealth, float maxHealth, float damage)
 			{
 				CurrentHealth = currentHealth;
 				MaxHealth = maxHealth;
+				Damage = damage;
 			}
 		}
 
