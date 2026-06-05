@@ -12,4 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1aca5732c97f4950be2c55b0144ea82c, type: 3}
   m_Name: WaveConfig
   m_EditorClassIdentifier: Assembly-CSharp::MagicalTower.Data.WaveConfig
-  Periods: []
+  Periods:
+  - StartTime: 0
+    SpawnInterval: 3
+    EnemyPool:
+    - {fileID: 11400000, guid: 744202ec3c1ddc34480aa53764350f1c, type: 2}
+  - StartTime: 30
+    SpawnInterval: 2
+    EnemyPool:
+    - {fileID: 11400000, guid: 744202ec3c1ddc34480aa53764350f1c, type: 2}
+    - {fileID: 11400000, guid: b39aa80fc54ebf44385810eb47c9a5e2, type: 2}
+  - StartTime: 60
+    SpawnInterval: 1.5
+    EnemyPool:
+    - {fileID: 11400000, guid: 744202ec3c1ddc34480aa53764350f1c, type: 2}
+    - {fileID: 11400000, guid: b39aa80fc54ebf44385810eb47c9a5e2, type: 2}
+    - {fileID: 11400000, guid: bfa4d676fa129214bb2d62644a163fd3, type: 2}
