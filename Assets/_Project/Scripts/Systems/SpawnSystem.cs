@@ -108,7 +108,7 @@ namespace MagicalTower.Systems
         private Vector3 GetSpawnPositionOutsideScreen()
         {
             var side = Random.Range(0, 4);
-            Vector3 screenPos = side switch
+            var screenPos = side switch
             {
                 0 => new Vector3(Random.Range(0f, 1f), 1.1f, 0f),
                 1 => new Vector3(Random.Range(0f, 1f), -0.1f, 0f),
@@ -118,9 +118,10 @@ namespace MagicalTower.Systems
 
             var ray = _camera.ViewportPointToRay(screenPos);
             if (Physics.Raycast(ray, out var hit, 100f))
-                return hit.point;
+                return new Vector3(hit.point.x, 0f, hit.point.z);
 
-            return ray.GetPoint(20f);
+            var point = ray.GetPoint(20f);
+            return new Vector3(point.x, 0f, point.z);
         }
 
         private void OnEnemyDied(GameEvents.EnemyDiedEvent evt)

@@ -1,16 +1,19 @@
 ﻿using System.Collections.Generic;
+using System;
 using MagicalTower.Systems;
 using UnityEngine;
 
 namespace MagicalTower.Domain.Spells.Projectiles
 {
-    public class FireballProjectile : MonoBehaviour
+    public class FireballProjectile : ProjectileBase
     {
         private float _speed;
         private float _damage;
         private float _aoeRadius;
         private float _burnDamagePerSecond;
         private float _burnDuration;
+        
+        private Action _onReturn;
         private Vector3 _direction;
         private DamageSystem _damageSystem;
         private List<Enemy.Enemy> _activeEnemies;
@@ -24,7 +27,8 @@ namespace MagicalTower.Domain.Spells.Projectiles
             float burnDamagePerSecond,
             float burnDuration,
             DamageSystem damageSystem,
-            List<Enemy.Enemy> activeEnemies)
+            List<Enemy.Enemy> activeEnemies,
+            System.Action onReturn)
         {
             _direction = direction;
             _speed = speed;
@@ -34,12 +38,18 @@ namespace MagicalTower.Domain.Spells.Projectiles
             _burnDuration = burnDuration;
             _damageSystem = damageSystem;
             _activeEnemies = activeEnemies;
+            _onReturn = onReturn;
             _hasExploded = false;
         }
-
-        private void Update()
+        
+        protected override void Tick(float deltaTime)
         {
-            transform.position += _direction * (_speed * Time.deltaTime);
+            transform.position += _direction * (_speed * deltaTime);
+        }
+
+        protected override void OnLifetimeExpired()
+        {
+            Explode();
         }
 
         private void OnTriggerEnter(Collider other)
@@ -60,7 +70,7 @@ namespace MagicalTower.Domain.Spells.Projectiles
                     _damageSystem.ApplyBurn(enemy, _burnDamagePerSecond, _burnDuration);
             }
 
-            gameObject.SetActive(false);
+            _onReturn?.Invoke();
         }
     }
 }

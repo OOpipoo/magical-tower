@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70322481a47b4b4a95d2ce456d02e917, type: 3}
   m_Name: BarrageBehaviour
   m_EditorClassIdentifier: Assembly-CSharp::MagicalTower.Domain.Spells.BarrageBehaviour
-  Cooldown: 6
+  ProjectilePrefab: {fileID: 8113816566222003441, guid: caf4726a7856f4a4f97a5f2cf4b0f0e4, type: 3}
+  Range: 18
+  Cooldown: 4
   Damage: 15
   ProjectileSpeed: 1
-  ProjectilePrefab: {fileID: 8113816566222003441, guid: caf4726a7856f4a4f97a5f2cf4b0f0e4, type: 3}
   ArcHeight: 3

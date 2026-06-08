@@ -8,8 +8,11 @@ namespace MagicalTower.Domain.Enemy.Behaviours
 		public override void Move(Transform enemy, Transform target, float speed, float deltaTime)
 		{
 			var direction = (target.position - enemy.position).normalized;
-			enemy.position += direction * speed * deltaTime;
-			enemy.LookAt(target.position);
+			direction.y = 0f;
+			enemy.position += direction * (speed * deltaTime);
+    
+			if (direction != Vector3.zero)
+				enemy.rotation = Quaternion.LookRotation(direction);
 		}
 	}
 }

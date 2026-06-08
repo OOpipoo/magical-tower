@@ -19,9 +19,11 @@ namespace MagicalTower.Domain.Spells
 	{
 		private readonly FireballBehaviour _config;
 		private DamageSystem _damageSystem;
+		private ProjectileFactory _projectileFactory;
 		private float _cooldownTimer;
 
 		public bool IsReady => _cooldownTimer <= 0f;
+		public float Range => _config.Range;
 
 		public FireballCommand(FireballBehaviour config)
 		{
@@ -29,9 +31,10 @@ namespace MagicalTower.Domain.Spells
 			_cooldownTimer = config.Cooldown;;
 		}
 
-		public void SetContext(DamageSystem damageSystem)
+		public void SetContext(DamageSystem damageSystem, ProjectileFactory projectileFactory)
 		{
 			_damageSystem = damageSystem;
+			_projectileFactory = projectileFactory;
 		}
 
 		public void Tick(float deltaTime)
@@ -47,8 +50,8 @@ namespace MagicalTower.Domain.Spells
 			var target = targets[Random.Range(0, targets.Count)];
 			var direction = (target.transform.position - origin).normalized;
 
-			var projectileGo = Object.Instantiate(_config.ProjectilePrefab, origin, Quaternion.identity);
-			var projectile = projectileGo.GetComponent<FireballProjectile>();
+			var projectile = _projectileFactory.Get<FireballProjectile>(_config.ProjectilePrefab);
+			projectile.transform.position = origin;
 			projectile.Initialize(
 				direction,
 				_config.ProjectileSpeed,
@@ -57,7 +60,8 @@ namespace MagicalTower.Domain.Spells
 				_config.BurnDamagePerSecond,
 				_config.BurnDuration,
 				_damageSystem,
-				targets);
+				targets,
+				() => _projectileFactory.Return(projectile, _config.ProjectilePrefab));
 
 			_cooldownTimer = _config.Cooldown;
 		}

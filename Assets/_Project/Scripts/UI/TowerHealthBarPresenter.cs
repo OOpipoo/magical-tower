@@ -55,5 +55,7 @@ namespace MagicalTower.UI
 			if (_healthText != null)
 				_healthText.text = $"{Mathf.RoundToInt(currentHealth)} / {Mathf.RoundToInt(maxHealth)}";
 		}
+		
+		
 	}
 }

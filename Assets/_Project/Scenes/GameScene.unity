@@ -898,9 +898,9 @@ Transform:
   m_GameObject: {fileID: 870384524}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.2, z: 0}
-  m_LocalScale: {x: 0.85, y: 0.85, z: 0.85}
-  m_ConstrainProportionsScale: 1
+  m_LocalPosition: {x: 0, y: 2.3, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1706354986}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1479,7 +1479,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c2e40fa84d53ccd428f640eac126b1fb, type: 2}
+  - {fileID: 2100000, guid: 0539b02332a80f344a6f320ccd1e6552, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1570,7 +1570,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -876546973899608171, guid: 30fa68ce467463643a86b839ca0eb195, type: 3}
+  - {fileID: 2100000, guid: 247c8975e74854349a5df7bacf7444f1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1622,7 +1622,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 10, y: 0.05, z: 10}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: -0.03, z: 0}
 --- !u!1 &1706354985
 GameObject:
   m_ObjectHideFlags: 0
@@ -1672,8 +1672,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fd977d1ef9b49c2a47ecbda2345a63c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MagicalTower.Domain.Tower.Tower
-  _shootingPoint: {fileID: 1783523708}
   _maxHealth: 1000
+  _shootingPoint: {fileID: 1783523708}
   _spells:
   - {fileID: 11400000, guid: 93124d2a809cc264eb8b3ed094a55928, type: 2}
   - {fileID: 11400000, guid: b45258599c7b1fb45ad5d46d32499f4b, type: 2}
@@ -1761,7 +1761,7 @@ Transform:
   m_GameObject: {fileID: 1783523707}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.2, z: 0}
+  m_LocalPosition: {x: 0, y: 2.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

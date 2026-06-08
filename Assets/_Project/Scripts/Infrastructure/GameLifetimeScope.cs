@@ -2,6 +2,7 @@
 using MagicalTower.Core;
 using MagicalTower.Data;
 using MagicalTower.Domain.Enemy;
+using MagicalTower.Domain.Spells.Projectiles;
 using MagicalTower.Domain.Tower;
 using MagicalTower.Systems;
 using MagicalTower.UI;
@@ -61,6 +62,9 @@ namespace MagicalTower.Infrastructure
 				_tower.transform,
 				resolver.Resolve<EventBus>()
 			), Lifetime.Singleton);
+			
+			builder.Register(resolver => new ProjectileFactory(
+				_enemyPoolParent), Lifetime.Singleton);
 		}
 
 		private void RegisterSystems(IContainerBuilder builder)
