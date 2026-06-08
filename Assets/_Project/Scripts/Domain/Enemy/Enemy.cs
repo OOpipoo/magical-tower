@@ -23,7 +23,6 @@ namespace MagicalTower.Domain.Enemy
         private bool _isInAttackRange;
 
         private readonly List<StatusEffect> _effects = new();
-        private readonly List<StatusEffect> _expiredEffects = new();
 
         public float HealthPercent => _currentHealth / Config.MaxHealth;
         public bool IsAlive { get; private set; }
@@ -134,7 +133,6 @@ namespace MagicalTower.Domain.Enemy
             _attackTimer = 0f;
             _rangeCheckTimer = 0f;
             _effects.Clear();
-            _expiredEffects.Clear();
         }
     }
 }

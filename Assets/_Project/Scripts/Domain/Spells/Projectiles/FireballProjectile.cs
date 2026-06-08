@@ -67,7 +67,6 @@ namespace MagicalTower.Domain.Spells.Projectiles
 
         private void OnTriggerEnter(Collider other)
         {
-            Debug.Log($"OnTriggerEnter: {other.gameObject.name}, layer={other.gameObject.layer}");
             if (_hasExploded) return;
             Explode();
         }

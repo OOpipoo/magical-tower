@@ -56,14 +56,6 @@ namespace MagicalTower.UI
 			var gameOverPresenter = gameOverGo.GetComponentInChildren<GameOverPresenter>();
 			gameOverPresenter.Construct(_eventBus);
 
-			_eventBus.Subscribe<GameEvents.GameOverEvent>(OnGameOver);
-		}
-
-		private void OnGameOver(GameEvents.GameOverEvent evt) { }
-
-		private void OnDestroy()
-		{
-			_eventBus?.Unsubscribe<GameEvents.GameOverEvent>(OnGameOver);
 		}
 	}
 }

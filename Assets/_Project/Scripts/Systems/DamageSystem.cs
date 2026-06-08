@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using MagicalTower.Core;
 using MagicalTower.Domain.Effects;
 using MagicalTower.Domain.Enemy;
@@ -7,7 +8,7 @@ using UnityEngine;
 
 namespace MagicalTower.Systems
 {
-	public class DamageSystem
+	public class DamageSystem : IDisposable
 	{
 		private readonly EventBus _eventBus;
 		private readonly TowerHealth _towerHealth;
