@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: FastEnemy
   m_EditorClassIdentifier: Assembly-CSharp::MagicalTower.Data.EnemyConfig
   AttackRangeCheckInterval: 0.3
-  SpawnCheckRadius: 1
-  MaxHealth: 60
-  MoveSpeed: 6
+  SpawnCheckRadius: 3
+  MaxHealth: 80
+  MoveSpeed: 3
   Scale: {x: 1, y: 1, z: 1}
   Prefab: {fileID: 3719265833689183297, guid: f2e8c8de9236946468de9b41fcf4c675, type: 3}
   Movement: {fileID: 11400000, guid: 9bf850d716527ce4f8afd964553fc752, type: 2}
-  Attack: {fileID: 11400000, guid: e15348c1d14d3c346ae1c9c6cded4f5f, type: 2}
+  Attack: {fileID: 11400000, guid: 2f099a4f4e4a2094eb79a2d9195ebd97, type: 2}
   Death: {fileID: 11400000, guid: 293544d835c41bd4bb837a79a62acbd8, type: 2}

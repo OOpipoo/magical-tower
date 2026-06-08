@@ -10,6 +10,7 @@ namespace MagicalTower.Domain.Tower
 {
 	public class Tower : MonoBehaviour, IInitializable
 	{
+		[SerializeField] private Transform _shootingPoint;
 		[SerializeField] private float _maxHealth = 500f;
 		[SerializeField] private List<SpellBehaviourBase> _spells = new();
 
@@ -19,7 +20,9 @@ namespace MagicalTower.Domain.Tower
 		private List<ISpellCommand> _spellCommands = new();
 
 		public Transform Transform => transform;
+		public float MaxHealth => _maxHealth;
 
+		
 		[Inject]
 		public void Construct(EventBus eventBus, TowerHealth health, DamageSystem damageSystem)
 		{
@@ -61,7 +64,7 @@ namespace MagicalTower.Domain.Tower
 			foreach (var command in _spellCommands)
 			{
 				if (command.IsReady)
-					command.Execute(transform.position, activeEnemies);
+					command.Execute(_shootingPoint.position, activeEnemies);
 			}
 		}
 	}

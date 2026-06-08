@@ -1,6 +1,5 @@
 ﻿using MagicalTower.Core;
 using MagicalTower.Domain.Tower;
-using MagicalTower.UI.Core;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -9,21 +8,25 @@ namespace MagicalTower.UI
 {
     public class DamageNumberPresenter : MonoBehaviour, IInitializable
     {
+        [SerializeField] private Vector3 _enemyDamageOffset = new Vector3(0, 2f, 0);
+        [SerializeField] private Vector3 _towerDamageOffset = new Vector3(0, 3f, 0);
+        
         private EventBus _eventBus;
         private ObjectPool<DamageNumber> _pool;
         private Camera _camera;
         private Tower _tower;
 
+        
         [Inject]
         public void Construct(
             EventBus eventBus,
             ObjectPool<DamageNumber> pool,
-            Camera camera,
+            Camera cameraMain,
             Tower tower)
         {
             _eventBus = eventBus;
             _pool = pool;
-            _camera = camera;
+            _camera = cameraMain;
             _tower = tower;
         }
 
@@ -41,12 +44,12 @@ namespace MagicalTower.UI
 
         private void OnDamageDealt(GameEvents.DamageDealtEvent evt)
         {
-            SpawnDamageNumber(evt.Amount, evt.Position);
+            SpawnDamageNumber(evt.Amount, evt.Position + _enemyDamageOffset);
         }
 
         private void OnTowerHealthChanged(GameEvents.TowerHealthChangedEvent evt)
         {
-            SpawnDamageNumber(evt.Damage, _tower.Transform.position);
+            SpawnDamageNumber(evt.Damage, _tower.Transform.position + _towerDamageOffset);
         }
 
         private void SpawnDamageNumber(float amount, Vector3 worldPosition)

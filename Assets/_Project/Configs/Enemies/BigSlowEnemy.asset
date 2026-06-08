@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: BigSlowEnemy
   m_EditorClassIdentifier: Assembly-CSharp::MagicalTower.Data.EnemyConfig
   AttackRangeCheckInterval: 0.3
-  SpawnCheckRadius: 1.5
-  MaxHealth: 300
-  MoveSpeed: 6
-  Scale: {x: 1, y: 1, z: 1}
+  SpawnCheckRadius: 2
+  MaxHealth: 120
+  MoveSpeed: 1
+  Scale: {x: 2, y: 2, z: 2}
   Prefab: {fileID: 3719265833689183297, guid: 6d368543058d4a24e8528d70ad060861, type: 3}
   Movement: {fileID: 11400000, guid: 9bf850d716527ce4f8afd964553fc752, type: 2}
-  Attack: {fileID: 11400000, guid: e15348c1d14d3c346ae1c9c6cded4f5f, type: 2}
+  Attack: {fileID: 11400000, guid: bdee374fddf11a342af4fb1562141339, type: 2}
   Death: {fileID: 11400000, guid: 293544d835c41bd4bb837a79a62acbd8, type: 2}

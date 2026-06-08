@@ -99,9 +99,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3032264025033742255}
-  - component: {fileID: 8463547243762615795}
   - component: {fileID: 5768405379371299808}
   - component: {fileID: 5323033894967042079}
+  - component: {fileID: 8463547243762615795}
+  - component: {fileID: 4442581786208085277}
   m_Layer: 6
   m_Name: Enemy_Default
   m_TagString: Untagged
@@ -125,18 +126,6 @@ Transform:
   - {fileID: 5446938923923865462}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8463547243762615795
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3719265833689183297}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 208178099c0b4d39946344b1cd336c48, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MagicalTower.Domain.Enemy.Enemy
 --- !u!136 &5768405379371299808
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -187,3 +176,30 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &8463547243762615795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3719265833689183297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 208178099c0b4d39946344b1cd336c48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MagicalTower.Domain.Enemy.Enemy
+--- !u!114 &4442581786208085277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3719265833689183297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e11ecce08b4c4cf1a2a160abe00ff056, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MagicalTower.Domain.Enemy.EnemyFlashEffect
+  _renderers:
+  - {fileID: 7592059380213967578}
+  _flashDuration: 0.2

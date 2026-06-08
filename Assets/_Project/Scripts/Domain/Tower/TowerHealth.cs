@@ -8,17 +8,20 @@ namespace MagicalTower.Domain.Tower
 		private float _currentHealth;
 		private float _maxHealth;
 		private EventBus _eventBus;
+		private FlashEffect _flashEffect;
 		private bool _isDead;
 
 		public float HealthPercent => _currentHealth / _maxHealth;
 		public bool IsDead => _isDead;
 
+		
 		public void Initialize(float maxHealth, EventBus eventBus)
 		{
 			_maxHealth = maxHealth;
 			_currentHealth = maxHealth;
 			_eventBus = eventBus;
 			_isDead = false;
+			_flashEffect = GetComponent<FlashEffect>();
 		}
 
 		public void TakeDamage(float amount)
@@ -26,6 +29,7 @@ namespace MagicalTower.Domain.Tower
 			if (_isDead) return;
 
 			_currentHealth = Mathf.Max(0f, _currentHealth - amount);
+			_flashEffect?.Flash();
 			_eventBus.Publish(new GameEvents.TowerHealthChangedEvent(_currentHealth, _maxHealth, amount));
 
 			if (_currentHealth <= 0f)

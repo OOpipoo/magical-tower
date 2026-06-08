@@ -15,7 +15,7 @@ MonoBehaviour:
   AttackRangeCheckInterval: 0.3
   SpawnCheckRadius: 1
   MaxHealth: 100
-  MoveSpeed: 3
+  MoveSpeed: 2
   Scale: {x: 1, y: 1, z: 1}
   Prefab: {fileID: 3719265833689183297, guid: 4d394d111c9547b47829da3c771cf639, type: 3}
   Movement: {fileID: 11400000, guid: 9bf850d716527ce4f8afd964553fc752, type: 2}

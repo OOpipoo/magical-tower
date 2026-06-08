@@ -14,6 +14,7 @@ namespace MagicalTower.Domain.Enemy
         private DeathBehaviourBase _death;
         private Transform _towerTransform;
         private EventBus _eventBus;
+        private FlashEffect _flashEffect;
 
         private float _currentHealth;
         private float _attackTimer;
@@ -35,6 +36,7 @@ namespace MagicalTower.Domain.Enemy
             Config = config;
             _towerTransform = towerTransform;
             _eventBus = eventBus;
+            _flashEffect = GetComponent<FlashEffect>();
 
             _movement = config.Movement;
             _attack = config.Attack;
@@ -100,6 +102,7 @@ namespace MagicalTower.Domain.Enemy
             if (!IsAlive) return;
 
             _currentHealth -= amount;
+            _flashEffect?.Flash();
             _eventBus.Publish(new GameEvents.DamageDealtEvent(transform.position, amount));
 
             if (_currentHealth <= 0f)
