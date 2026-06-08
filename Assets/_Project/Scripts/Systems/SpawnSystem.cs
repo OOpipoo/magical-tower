@@ -14,15 +14,14 @@ namespace MagicalTower.Systems
         private readonly Camera _camera;
         private readonly List<Enemy> _activeEnemies;
         private readonly EventBus _eventBus;
+        private readonly GameStateService _gameState;
         private readonly Collider[] _spawnCheckBuffer = new Collider[10];
         private readonly int _enemyLayerMask;
 
         private float _gameTime;
         private float _spawnTimer;
         private WavePeriod _currentPeriod;
-        
-        private bool _gameWon;
-        
+
         private readonly List<EnemySpawnEntry> _availableEntries = new();
         private readonly Dictionary<EnemySpawnEntry, int> _spawnedCounts = new();
 
@@ -33,13 +32,15 @@ namespace MagicalTower.Systems
             WaveConfig waveConfig,
             Camera camera,
             List<Enemy> activeEnemies,
-            EventBus eventBus)
+            EventBus eventBus,
+            GameStateService gameState)
         {
             _enemyFactory = enemyFactory;
             _waveConfig = waveConfig;
             _camera = camera;
             _activeEnemies = activeEnemies;
             _eventBus = eventBus;
+            _gameState = gameState;
             _currentPeriod = _waveConfig.Periods[0];
             _enemyLayerMask = LayerMask.GetMask("Enemy");
         }
@@ -51,14 +52,13 @@ namespace MagicalTower.Systems
 
         public void Tick()
         {
-            if (_gameWon) return;
+            if (!_gameState.IsGameActive) return;
 
             _gameTime += Time.deltaTime;
             UpdateCurrentPeriod();
 
             if (IsLastPeriodFinished() && _activeEnemies.Count == 0)
             {
-                _gameWon = true;
                 _eventBus.Publish(new GameEvents.GameWonEvent());
                 return;
             }

@@ -15,6 +15,7 @@ namespace MagicalTower.Domain.Enemy
         private Transform _towerTransform;
         private EventBus _eventBus;
         private FlashEffect _flashEffect;
+        private GameStateService _gameState;
 
         private float _currentHealth;
         private float _attackTimer;
@@ -31,11 +32,13 @@ namespace MagicalTower.Domain.Enemy
         public void Initialize(
             EnemyConfig config,
             Transform towerTransform,
-            EventBus eventBus)
+            EventBus eventBus,
+            GameStateService gameState)
         {
             Config = config;
             _towerTransform = towerTransform;
             _eventBus = eventBus;
+            _gameState = gameState;
             _flashEffect = GetComponent<FlashEffect>();
 
             _movement = config.Movement;
@@ -54,6 +57,7 @@ namespace MagicalTower.Domain.Enemy
         private void Update()
         {
             if (!IsAlive) return;
+            if (!_gameState.IsGameActive) return;
 
             UpdateEffects();
             UpdateRangeCheck();

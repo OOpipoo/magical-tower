@@ -11,15 +11,18 @@ namespace MagicalTower.Domain.Enemy
 		private readonly Transform _poolParent;
 		private readonly Transform _towerTransform;
 		private readonly EventBus _eventBus;
+		private readonly GameStateService _gameState;
 
 		public EnemyFactory(
 			Transform poolParent,
 			Transform towerTransform,
-			EventBus eventBus)
+			EventBus eventBus,
+			GameStateService gameState)
 		{
 			_poolParent = poolParent;
 			_towerTransform = towerTransform;
 			_eventBus = eventBus;
+			_gameState = gameState;
 		}
 
 		public Enemy Create(EnemyConfig config, Vector3 spawnPosition)
@@ -28,7 +31,7 @@ namespace MagicalTower.Domain.Enemy
 			var enemy = pool.Get();
 			enemy.transform.position = spawnPosition;
 			enemy.transform.rotation = Quaternion.identity;
-			enemy.Initialize(config, _towerTransform, _eventBus);
+			enemy.Initialize(config, _towerTransform, _eventBus, _gameState);
 			return enemy;
 		}
 

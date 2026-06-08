@@ -60,7 +60,8 @@ namespace MagicalTower.Infrastructure
 			builder.Register(resolver => new EnemyFactory(
 				_enemyPoolParent,
 				_tower.transform,
-				resolver.Resolve<EventBus>()
+				resolver.Resolve<EventBus>(),
+				resolver.Resolve<GameStateService>()
 			), Lifetime.Singleton);
 			
 			builder.Register(resolver => new ProjectileFactory(
@@ -69,6 +70,10 @@ namespace MagicalTower.Infrastructure
 
 		private void RegisterSystems(IContainerBuilder builder)
 		{
+			builder.Register<GameStateService>(Lifetime.Singleton)
+				.AsImplementedInterfaces()
+				.AsSelf();
+
 			builder.Register<SpawnSystem>(Lifetime.Singleton)
 				.AsImplementedInterfaces()
 				.AsSelf();
