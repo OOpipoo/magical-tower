@@ -148,7 +148,7 @@ GameObject:
   - component: {fileID: 4398790689256732419}
   - component: {fileID: 8594064565933355588}
   m_Layer: 0
-  m_Name: 'DamageNumber '
+  m_Name: DamageNumber_UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

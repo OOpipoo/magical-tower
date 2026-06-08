@@ -85,11 +85,7 @@ namespace MagicalTower.Infrastructure
 			builder.RegisterInstance(
 				new ObjectPool<DamageNumber>(_damageNumberPrefab, _uiPoolParent, 10));
 
-			builder.RegisterComponentInHierarchy<TowerHealthBarPresenter>()
-				.AsImplementedInterfaces()
-				.AsSelf();
-
-			builder.RegisterComponentInHierarchy<DamageNumberPresenter>()
+			builder.RegisterComponentInHierarchy<UIManager>()
 				.AsImplementedInterfaces()
 				.AsSelf();
 		}

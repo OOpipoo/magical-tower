@@ -82,12 +82,18 @@ namespace MagicalTower.Domain.Enemy
 
         private void UpdateEffects()
         {
+            if (!IsAlive) return;
+    
             for (int i = _effects.Count - 1; i >= 0; i--)
             {
+                if (i >= _effects.Count) continue;
+        
                 var effect = _effects[i];
                 effect.Tick(this, Time.deltaTime);
-
-                if (effect.IsExpired)
+        
+                if (!IsAlive) return;
+        
+                if (i < _effects.Count && effect.IsExpired)
                     _effects.RemoveAt(i);
             }
         }

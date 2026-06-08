@@ -5,6 +5,13 @@ using UnityEngine;
 namespace MagicalTower.Data
 {
 	[Serializable]
+	public class EnemySpawnEntry
+	{
+		public EnemyConfig Enemy;
+		public int Count = 5;
+	}
+
+	[Serializable]
 	public class WavePeriod
 	{
 		[Tooltip("Game time in seconds when this period starts")]
@@ -13,8 +20,8 @@ namespace MagicalTower.Data
 		[Tooltip("Interval between enemy spawns in seconds")]
 		public float SpawnInterval = 3f;
 
-		[Tooltip("Enemy pool for this period")]
-		public List<EnemyConfig> EnemyPool = new();
+		[Tooltip("Enemies to spawn in this period")]
+		public List<EnemySpawnEntry> EnemyPool = new();
 	}
 
 	[CreateAssetMenu(fileName = "WaveConfig", menuName = "MagicalTower/Configs/Wave")]

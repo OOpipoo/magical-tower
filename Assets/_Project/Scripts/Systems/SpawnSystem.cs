@@ -15,11 +15,16 @@ namespace MagicalTower.Systems
         private readonly List<Enemy> _activeEnemies;
         private readonly EventBus _eventBus;
         private readonly Collider[] _spawnCheckBuffer = new Collider[10];
-        private int _enemyLayerMask;
+        private readonly int _enemyLayerMask;
 
         private float _gameTime;
         private float _spawnTimer;
         private WavePeriod _currentPeriod;
+        
+        private bool _gameWon;
+        
+        private readonly List<EnemySpawnEntry> _availableEntries = new();
+        private readonly Dictionary<EnemySpawnEntry, int> _spawnedCounts = new();
 
         public IReadOnlyList<Enemy> ActiveEnemies => _activeEnemies;
 
@@ -46,8 +51,17 @@ namespace MagicalTower.Systems
 
         public void Tick()
         {
+            if (_gameWon) return;
+
             _gameTime += Time.deltaTime;
             UpdateCurrentPeriod();
+
+            if (IsLastPeriodFinished() && _activeEnemies.Count == 0)
+            {
+                _gameWon = true;
+                _eventBus.Publish(new GameEvents.GameWonEvent());
+                return;
+            }
 
             _spawnTimer += Time.deltaTime;
             if (_spawnTimer >= _currentPeriod.SpawnInterval)
@@ -60,31 +74,70 @@ namespace MagicalTower.Systems
         private void UpdateCurrentPeriod()
         {
             WavePeriod latest = _waveConfig.Periods[0];
-            foreach (var period in _waveConfig.Periods)
+            int latestIndex = 0;
+
+            for (int i = 0; i < _waveConfig.Periods.Count; i++)
             {
-                if (_gameTime >= period.StartTime)
-                    latest = period;
+                if (_gameTime >= _waveConfig.Periods[i].StartTime)
+                {
+                    latest = _waveConfig.Periods[i];
+                    latestIndex = i;
+                }
             }
-            _currentPeriod = latest;
+
+            if (_currentPeriod != latest)
+            {
+                _currentPeriod = latest;
+                _spawnedCounts.Clear();
+                _eventBus.Publish(new GameEvents.WaveChangedEvent(latestIndex + 1, _waveConfig.Periods.Count));
+            }
+        }
+
+        private bool IsLastPeriodFinished()
+        {
+            var lastPeriod = _waveConfig.Periods[^1];
+            if (_currentPeriod != lastPeriod) return false;
+
+            foreach (var entry in lastPeriod.EnemyPool)
+            {
+                if (GetSpawnedCount(entry) < entry.Count)
+                    return false;
+            }
+
+            return true;
         }
 
         private void SpawnEnemy()
         {
-            if (_currentPeriod.EnemyPool.Count == 0)
+            _availableEntries.Clear();
+            foreach (var entry in _currentPeriod.EnemyPool)
             {
-                return;
+                if (GetSpawnedCount(entry) < entry.Count)
+                    _availableEntries.Add(entry);
             }
 
-            var config = _currentPeriod.EnemyPool[Random.Range(0, _currentPeriod.EnemyPool.Count)];
-            var spawnPosition = GetValidSpawnPosition(config);
+            if (_availableEntries.Count == 0) return;
 
-            if (spawnPosition == null)
-            {
-                return;
-            }
+            var selected = _availableEntries[Random.Range(0, _availableEntries.Count)];
+            IncrementSpawnedCount(selected);
 
-            var enemy = _enemyFactory.Create(config, spawnPosition.Value);
+            var spawnPosition = GetValidSpawnPosition(selected.Enemy);
+            if (spawnPosition == null) return;
+
+            var enemy = _enemyFactory.Create(selected.Enemy, spawnPosition.Value);
             _activeEnemies.Add(enemy);
+        }
+        
+        private int GetSpawnedCount(EnemySpawnEntry entry)
+        {
+            return _spawnedCounts.GetValueOrDefault(entry, 0);
+        }
+
+        private void IncrementSpawnedCount(EnemySpawnEntry entry)
+        {
+            if (!_spawnedCounts.ContainsKey(entry))
+                _spawnedCounts[entry] = 0;
+            _spawnedCounts[entry]++;
         }
 
         private Vector3? GetValidSpawnPosition(EnemyConfig config, int maxAttempts = 10)

@@ -7,7 +7,7 @@ namespace MagicalTower.Core
 		public struct DamageDealtEvent
 		{
 			public Vector3 Position;
-			public float Amount;
+			public readonly float Amount;
 
 			public DamageDealtEvent(Vector3 position, float amount)
 			{
@@ -18,7 +18,7 @@ namespace MagicalTower.Core
 
 		public struct EnemyDiedEvent
 		{
-			public GameObject Enemy;
+			public readonly GameObject Enemy;
 
 			public EnemyDiedEvent(GameObject enemy)
 			{
@@ -28,7 +28,7 @@ namespace MagicalTower.Core
 
 		public struct EnemyAttackedTowerEvent
 		{
-			public float Damage;
+			public readonly float Damage;
 
 			public EnemyAttackedTowerEvent(float damage)
 			{
@@ -38,9 +38,9 @@ namespace MagicalTower.Core
 
 		public struct TowerHealthChangedEvent
 		{
-			public float CurrentHealth;
-			public float MaxHealth;
-			public float Damage;
+			public readonly float CurrentHealth;
+			public readonly float MaxHealth;
+			public readonly float Damage;
 
 			public TowerHealthChangedEvent(float currentHealth, float maxHealth, float damage)
 			{
@@ -49,7 +49,20 @@ namespace MagicalTower.Core
 				Damage = damage;
 			}
 		}
+		
+		public struct WaveChangedEvent
+		{
+			public readonly int CurrentWave;
+			public readonly int TotalWaves;
+
+			public WaveChangedEvent(int currentWave, int totalWaves)
+			{
+				CurrentWave = currentWave;
+				TotalWaves = totalWaves;
+			}
+		}
 
 		public struct GameOverEvent { }
+		public struct GameWonEvent { }
 	}
 }

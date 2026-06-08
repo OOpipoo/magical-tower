@@ -17,7 +17,6 @@ namespace MagicalTower.UI
         private Tower _tower;
 
         
-        [Inject]
         public void Construct(
             EventBus eventBus,
             ObjectPool<DamageNumber> pool,
