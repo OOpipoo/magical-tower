@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5452317770137327689}
   - component: {fileID: 3741720129384555550}
-  - component: {fileID: 567668387225408582}
   m_Layer: 0
   m_Name: FireballProjectile
   m_TagString: Untagged
@@ -46,27 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd27a34d39f14647ac51f33b13619824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MagicalTower.Domain.Spells.Projectiles.FireballProjectile
---- !u!135 &567668387225408582
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7899449103700866}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.3
-  m_Center: {x: 0, y: 0, z: 0}
+  _maxLifetime: 7
+  _destroyBelowY: 0
 --- !u!1 &2552311664164709448
 GameObject:
   m_ObjectHideFlags: 0

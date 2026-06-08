@@ -10,6 +10,7 @@ namespace MagicalTower.Domain.Spells.Projectiles
         private float _speed;
         private float _damage;
         private float _aoeRadius;
+        private float _hitRadius;
         private float _burnDamagePerSecond;
         private float _burnDuration;
         
@@ -24,6 +25,7 @@ namespace MagicalTower.Domain.Spells.Projectiles
             float speed,
             float damage,
             float aoeRadius,
+            float hitRadius,
             float burnDamagePerSecond,
             float burnDuration,
             DamageSystem damageSystem,
@@ -34,6 +36,7 @@ namespace MagicalTower.Domain.Spells.Projectiles
             _speed = speed;
             _damage = damage;
             _aoeRadius = aoeRadius;
+            _hitRadius= hitRadius;
             _burnDamagePerSecond = burnDamagePerSecond;
             _burnDuration = burnDuration;
             _damageSystem = damageSystem;
@@ -45,6 +48,16 @@ namespace MagicalTower.Domain.Spells.Projectiles
         protected override void Tick(float deltaTime)
         {
             transform.position += _direction * (_speed * deltaTime);
+
+            foreach (var enemy in _activeEnemies)
+            {
+                if (!enemy.IsAlive) continue;
+                if (Vector3.Distance(transform.position, enemy.transform.position) <= _hitRadius)
+                {
+                    Explode();
+                    return;
+                }
+            }
         }
 
         protected override void OnLifetimeExpired()
@@ -54,6 +67,7 @@ namespace MagicalTower.Domain.Spells.Projectiles
 
         private void OnTriggerEnter(Collider other)
         {
+            Debug.Log($"OnTriggerEnter: {other.gameObject.name}, layer={other.gameObject.layer}");
             if (_hasExploded) return;
             Explode();
         }

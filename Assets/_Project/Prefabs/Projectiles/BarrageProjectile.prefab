@@ -117,7 +117,7 @@ Transform:
   m_GameObject: {fileID: 8113816566222003441}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.892, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -136,6 +136,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3efcb5cfdf7343d9b82f287d254373a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MagicalTower.Domain.Spells.Projectiles.BarrageProjectile
+  _maxLifetime: 10
+  _destroyBelowY: -5
 --- !u!135 &3805024407495177077
 SphereCollider:
   m_ObjectHideFlags: 0

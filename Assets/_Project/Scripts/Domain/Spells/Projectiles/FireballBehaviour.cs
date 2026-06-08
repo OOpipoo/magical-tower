@@ -10,6 +10,7 @@ namespace MagicalTower.Domain.Spells
 	{
 		public float AoeRadius = 3f;
 		public float BurnDamagePerSecond = 5f;
+		public float HitRadius = 0.8f;
 		public float BurnDuration = 3f;
 
 		public override ISpellCommand CreateCommand() => new FireballCommand(this);
@@ -57,6 +58,7 @@ namespace MagicalTower.Domain.Spells
 				_config.ProjectileSpeed,
 				_config.Damage,
 				_config.AoeRadius,
+				_config.HitRadius,
 				_config.BurnDamagePerSecond,
 				_config.BurnDuration,
 				_damageSystem,

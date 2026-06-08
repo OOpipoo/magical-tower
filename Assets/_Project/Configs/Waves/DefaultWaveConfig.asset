@@ -14,17 +14,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MagicalTower.Data.WaveConfig
   Periods:
   - StartTime: 0
-    SpawnInterval: 3
+    SpawnInterval: 2
     EnemyPool:
-    - {fileID: 11400000, guid: 744202ec3c1ddc34480aa53764350f1c, type: 2}
+    - Enemy: {fileID: 11400000, guid: 744202ec3c1ddc34480aa53764350f1c, type: 2}
+      Count: 15
   - StartTime: 30
     SpawnInterval: 2
     EnemyPool:
-    - {fileID: 11400000, guid: 744202ec3c1ddc34480aa53764350f1c, type: 2}
-    - {fileID: 11400000, guid: b39aa80fc54ebf44385810eb47c9a5e2, type: 2}
+    - Enemy: {fileID: 11400000, guid: 744202ec3c1ddc34480aa53764350f1c, type: 2}
+      Count: 10
+    - Enemy: {fileID: 11400000, guid: b39aa80fc54ebf44385810eb47c9a5e2, type: 2}
+      Count: 10
   - StartTime: 60
     SpawnInterval: 1.5
     EnemyPool:
-    - {fileID: 11400000, guid: 744202ec3c1ddc34480aa53764350f1c, type: 2}
-    - {fileID: 11400000, guid: b39aa80fc54ebf44385810eb47c9a5e2, type: 2}
-    - {fileID: 11400000, guid: bfa4d676fa129214bb2d62644a163fd3, type: 2}
+    - Enemy: {fileID: 11400000, guid: 744202ec3c1ddc34480aa53764350f1c, type: 2}
+      Count: 15
+    - Enemy: {fileID: 11400000, guid: b39aa80fc54ebf44385810eb47c9a5e2, type: 2}
+      Count: 15
+    - Enemy: {fileID: 11400000, guid: bfa4d676fa129214bb2d62644a163fd3, type: 2}
+      Count: 10
