@@ -74,7 +74,7 @@ Assets/_Project/Scripts/
 
 ## 🛠️ Tech Stack
 
-- **Unity** (URP)
+- **Unity 6000.3.11f1** (URP)
 - **VContainer** — DI container
 - **UniTask** — async utilities
 - **DOTween** — animations (flash effect, damage numbers)
