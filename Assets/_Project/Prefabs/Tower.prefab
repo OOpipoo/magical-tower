@@ -278,6 +278,7 @@ MonoBehaviour:
   _spells:
   - {fileID: 11400000, guid: 93124d2a809cc264eb8b3ed094a55928, type: 2}
   - {fileID: 11400000, guid: b45258599c7b1fb45ad5d46d32499f4b, type: 2}
+  - {fileID: 11400000, guid: 3d45e676e783e724d9de8a74aa31635e, type: 2}
 --- !u!114 &1282281150749405072
 MonoBehaviour:
   m_ObjectHideFlags: 0

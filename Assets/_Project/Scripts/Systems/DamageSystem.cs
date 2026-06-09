@@ -46,6 +46,11 @@ namespace MagicalTower.Systems
 			enemy.AddEffect(new BurnEffect(damagePerSecond, duration));
 		}
 
+		public void ApplySlow(Enemy enemy, float speedMultiplier, float duration)
+		{
+			enemy.AddEffect(new SlowEffect(speedMultiplier, duration));
+		}
+
 		private void OnEnemyAttackedTower(GameEvents.EnemyAttackedTowerEvent evt)
 		{
 			_towerHealth.TakeDamage(evt.Damage);

@@ -68,7 +68,8 @@ namespace MagicalTower.Domain.Enemy
 			}
 			else
 			{
-				_movement.Move(transform, _towerTransform, Config.MoveSpeed, Time.deltaTime);
+				var speed = Config.MoveSpeed * GetSpeedMultiplier();
+				_movement.Move(transform, _towerTransform, speed, Time.deltaTime);
 			}
 		}
 
@@ -102,6 +103,14 @@ namespace MagicalTower.Domain.Enemy
 		public void AddEffect(StatusEffect effect)
 		{
 			_effects.Add(effect);
+		}
+
+		private float GetSpeedMultiplier()
+		{
+			var multiplier = 1f;
+			foreach (var effect in _effects)
+				multiplier *= effect.GetSpeedMultiplier();
+			return multiplier;
 		}
 
 		public void TakeDamage(float amount)
