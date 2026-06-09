@@ -1,5 +1,4 @@
 ﻿using System;
-using MagicalTower.Domain.Enemy;
 using MagicalTower.Systems;
 using UnityEngine;
 
@@ -25,7 +24,7 @@ namespace MagicalTower.Domain.Spells.Projectiles
 			float damage,
 			float arcHeight,
 			DamageSystem damageSystem,
-			System.Action onReturn)
+			Action onReturn)
 		{
 			_target = target;
 			_speed = speed;

@@ -465,6 +465,52 @@ MonoBehaviour:
   _damageNumbersCanvasPrefab: {fileID: 427370047519142557, guid: 4abd799dfa78d0b46aa5b926d1f83d22, type: 3}
   _gameWonCanvasPrefab: {fileID: 4923494235332657342, guid: 62e5b31f0104bb44eadd8ce973dbf7fc, type: 3}
   _gameOverCanvasPrefab: {fileID: 2386131651847571251, guid: feedc231b715af04e89f51e45eb79434, type: 3}
+--- !u!1 &806106520
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 806106522}
+  - component: {fileID: 806106521}
+  m_Layer: 0
+  m_Name: DebugController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &806106521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 806106520}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2777ca0ec1dfada4ab9cac5f41c3d1c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MagicalTower.Infrastructure.DebugController
+  _slowScale: 0.2
+  _fastScale: 3
+--- !u!4 &806106522
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 806106520}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -957,10 +1003,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4929078117315683993, guid: b750773719640874080e7162715f346d, type: 3}
-      propertyPath: _maxHealth
-      value: 100
-      objectReference: {fileID: 0}
     - target: {fileID: 7606020673052568464, guid: b750773719640874080e7162715f346d, type: 3}
       propertyPath: m_Name
       value: Tower
@@ -982,3 +1024,4 @@ SceneRoots:
   - {fileID: 7517951286509175324}
   - {fileID: 494091987}
   - {fileID: 929146955}
+  - {fileID: 806106522}

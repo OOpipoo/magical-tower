@@ -24,10 +24,10 @@ namespace MagicalTower.Domain.Enemy
 
 		private readonly List<StatusEffect> _effects = new();
 
-		public float HealthPercent => _currentHealth / Config.MaxHealth;
 		public bool IsAlive { get; private set; }
 		public EnemyConfig Config { get; private set; }
 
+		
 		public void Initialize(
 			EnemyConfig config,
 			Transform towerTransform,
@@ -43,8 +43,8 @@ namespace MagicalTower.Domain.Enemy
 			_movement = config.Movement;
 			_attack = config.Attack;
 			_death = config.Death;
-
 			_currentHealth = config.MaxHealth;
+			
 			IsAlive = true;
 			_isInAttackRange = false;
 			_rangeCheckTimer = 0f;

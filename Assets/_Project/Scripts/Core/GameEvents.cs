@@ -62,12 +62,8 @@ namespace MagicalTower.Core
 			}
 		}
 
-		public struct GameOverEvent
-		{
-		}
+		public struct GameOverEvent { }
 
-		public struct GameWonEvent
-		{
-		}
+		public struct GameWonEvent { }
 	}
 }
