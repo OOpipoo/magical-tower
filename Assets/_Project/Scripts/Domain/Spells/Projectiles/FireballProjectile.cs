@@ -1,89 +1,91 @@
-﻿using System.Collections.Generic;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using MagicalTower.Systems;
 using UnityEngine;
 
 namespace MagicalTower.Domain.Spells.Projectiles
 {
-    public class FireballProjectile : ProjectileBase
-    {
-        private float _speed;
-        private float _damage;
-        private float _aoeRadius;
-        private float _hitRadius;
-        private float _burnDamagePerSecond;
-        private float _burnDuration;
-        
-        private Action _onReturn;
-        private Vector3 _direction;
-        private DamageSystem _damageSystem;
-        private List<Enemy.Enemy> _activeEnemies;
-        private bool _hasExploded;
+	public class FireballProjectile : ProjectileBase
+	{
+		private float _speed;
+		private float _damage;
+		private float _aoeRadius;
+		private float _hitRadius;
+		private float _burnDamagePerSecond;
+		private float _burnDuration;
 
-        public void Initialize(
-            Vector3 direction,
-            float speed,
-            float damage,
-            float aoeRadius,
-            float hitRadius,
-            float burnDamagePerSecond,
-            float burnDuration,
-            DamageSystem damageSystem,
-            List<Enemy.Enemy> activeEnemies,
-            System.Action onReturn)
-        {
-            _direction = direction;
-            _speed = speed;
-            _damage = damage;
-            _aoeRadius = aoeRadius;
-            _hitRadius= hitRadius;
-            _burnDamagePerSecond = burnDamagePerSecond;
-            _burnDuration = burnDuration;
-            _damageSystem = damageSystem;
-            _activeEnemies = activeEnemies;
-            _onReturn = onReturn;
-            _hasExploded = false;
-        }
-        
-        protected override void Tick(float deltaTime)
-        {
-            transform.position += _direction * (_speed * deltaTime);
+		private Action _onReturn;
+		private Vector3 _direction;
+		private DamageSystem _damageSystem;
+		private List<Enemy.Enemy> _activeEnemies;
+		private bool _hasExploded;
 
-            foreach (var enemy in _activeEnemies)
-            {
-                if (!enemy.IsAlive) continue;
-                if (Vector3.Distance(transform.position, enemy.transform.position) <= _hitRadius)
-                {
-                    Explode();
-                    return;
-                }
-            }
-        }
+		public void Initialize(
+			Vector3 direction,
+			float speed,
+			float damage,
+			float aoeRadius,
+			float hitRadius,
+			float burnDamagePerSecond,
+			float burnDuration,
+			DamageSystem damageSystem,
+			List<Enemy.Enemy> activeEnemies,
+			Action onReturn)
+		{
+			_direction = direction;
+			_speed = speed;
+			_damage = damage;
+			_aoeRadius = aoeRadius;
+			_hitRadius = hitRadius;
+			_burnDamagePerSecond = burnDamagePerSecond;
+			_burnDuration = burnDuration;
+			_damageSystem = damageSystem;
+			_activeEnemies = activeEnemies;
+			_onReturn = onReturn;
+			_hasExploded = false;
+		}
 
-        protected override void OnLifetimeExpired()
-        {
-            Explode();
-        }
+		protected override void Tick(float deltaTime)
+		{
+			if (_hasExploded) return;
 
-        private void OnTriggerEnter(Collider other)
-        {
-            if (_hasExploded) return;
-            Explode();
-        }
+			transform.position += _direction * (_speed * deltaTime);
 
-        private void Explode()
-        {
-            _hasExploded = true;
-            _damageSystem.DealAoeDamage(transform.position, _aoeRadius, _damage, _activeEnemies);
+			foreach (var enemy in _activeEnemies)
+			{
+				if (!enemy.IsAlive) continue;
+				if (Vector3.Distance(transform.position, enemy.transform.position) <= _hitRadius)
+				{
+					Explode();
+					return;
+				}
+			}
+		}
 
-            foreach (var enemy in _activeEnemies)
-            {
-                if (!enemy.IsAlive) continue;
-                if (Vector3.Distance(transform.position, enemy.transform.position) <= _aoeRadius)
-                    _damageSystem.ApplyBurn(enemy, _burnDamagePerSecond, _burnDuration);
-            }
+		protected override void OnLifetimeExpired()
+		{
+			Explode();
+		}
 
-            _onReturn?.Invoke();
-        }
-    }
+		private void OnTriggerEnter(Collider other)
+		{
+			if (_hasExploded) return;
+			Explode();
+		}
+
+		private void Explode()
+		{
+			_hasExploded = true;
+			_damageSystem.DealAoeDamage(transform.position, _aoeRadius, _damage, _activeEnemies);
+
+			foreach (var enemy in _activeEnemies)
+			{
+				if (!enemy.IsAlive) continue;
+				if (Vector3.Distance(transform.position, enemy.transform.position) <= _aoeRadius)
+					_damageSystem.ApplyBurn(enemy, _burnDamagePerSecond, _burnDuration);
+			}
+
+			_onReturn?.Invoke();
+		}
+	}
 }

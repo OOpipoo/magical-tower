@@ -1,13 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using MagicalTower.Core;
 using MagicalTower.Data;
 using MagicalTower.Domain.Enemy;
 using UnityEngine;
 using VContainer.Unity;
+using Random = UnityEngine.Random;
 
 namespace MagicalTower.Systems
 {
-    public class SpawnSystem : ITickable, IInitializable
+    public class SpawnSystem : ITickable, IInitializable, IDisposable
     {
         private readonly EnemyFactory _enemyFactory;
         private readonly WaveConfig _waveConfig;
@@ -175,6 +177,11 @@ namespace MagicalTower.Systems
 
             var point = ray.GetPoint(20f);
             return new Vector3(point.x, 0f, point.z);
+        }
+
+        public void Dispose()
+        {
+            _eventBus.Unsubscribe<GameEvents.EnemyDiedEvent>(OnEnemyDied);
         }
 
         private void OnEnemyDied(GameEvents.EnemyDiedEvent evt)

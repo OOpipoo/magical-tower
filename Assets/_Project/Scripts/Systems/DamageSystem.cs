@@ -5,10 +5,11 @@ using MagicalTower.Domain.Effects;
 using MagicalTower.Domain.Enemy;
 using MagicalTower.Domain.Tower;
 using UnityEngine;
+using VContainer.Unity;
 
 namespace MagicalTower.Systems
 {
-	public class DamageSystem : IDisposable
+	public class DamageSystem : IInitializable, IDisposable
 	{
 		private readonly EventBus _eventBus;
 		private readonly TowerHealth _towerHealth;
@@ -17,7 +18,10 @@ namespace MagicalTower.Systems
 		{
 			_eventBus = eventBus;
 			_towerHealth = towerHealth;
+		}
 
+		public void Initialize()
+		{
 			_eventBus.Subscribe<GameEvents.EnemyAttackedTowerEvent>(OnEnemyAttackedTower);
 		}
 

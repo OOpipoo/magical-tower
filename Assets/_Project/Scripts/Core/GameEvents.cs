@@ -6,7 +6,7 @@ namespace MagicalTower.Core
 	{
 		public struct DamageDealtEvent
 		{
-			public Vector3 Position;
+			public readonly Vector3 Position;
 			public readonly float Amount;
 
 			public DamageDealtEvent(Vector3 position, float amount)
@@ -49,7 +49,7 @@ namespace MagicalTower.Core
 				Damage = damage;
 			}
 		}
-		
+
 		public struct WaveChangedEvent
 		{
 			public readonly int CurrentWave;
@@ -62,7 +62,12 @@ namespace MagicalTower.Core
 			}
 		}
 
-		public struct GameOverEvent { }
-		public struct GameWonEvent { }
+		public struct GameOverEvent
+		{
+		}
+
+		public struct GameWonEvent
+		{
+		}
 	}
 }
