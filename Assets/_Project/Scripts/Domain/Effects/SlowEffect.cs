@@ -3,13 +3,17 @@ namespace MagicalTower.Domain.Effects
 	public class SlowEffect : StatusEffect
 	{
 		private readonly float _speedMultiplier;
+		private readonly float _duration;
 		private float _timeRemaining;
 
+		public override string EffectId => "slow";
+		public override float Duration => _duration;
 		public override bool IsExpired => _timeRemaining <= 0f;
 
 		public SlowEffect(float speedMultiplier, float duration)
 		{
 			_speedMultiplier = speedMultiplier;
+			_duration = duration;
 			_timeRemaining = duration;
 		}
 

@@ -3,15 +3,19 @@
 	public class BurnEffect : StatusEffect
 	{
 		private readonly float _damagePerSecond;
+		private readonly float _duration;
 		private float _timeRemaining;
 		private float _tickAccumulator;
 		private const float TickInterval = 0.5f;
 
+		public override string EffectId => "burn";
+		public override float Duration => _duration;
 		public override bool IsExpired => _timeRemaining <= 0f;
 
 		public BurnEffect(float damagePerSecond, float duration)
 		{
 			_damagePerSecond = damagePerSecond;
+			_duration = duration;
 			_timeRemaining = duration;
 		}
 

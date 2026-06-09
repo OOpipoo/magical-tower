@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c143e87b95c5e3c44b6aa2ca30aaa7d3, type: 3}
+  m_Name: EffectIndicatorConfig
+  m_EditorClassIdentifier: Assembly-CSharp::MagicalTower.Domain.Effects.EffectIndicatorConfig
+  Entries:
+  - EffectId: burn
+    Color: {r: 1, g: 0.56868994, b: 0, a: 0}
+    Shape: 0
+    Scale: 0.5
+    YOffset: 2
+  - EffectId: slow
+    Color: {r: 0, g: 0.06844139, b: 1, a: 0}
+    Shape: 3
+    Scale: 0.5
+    YOffset: 2

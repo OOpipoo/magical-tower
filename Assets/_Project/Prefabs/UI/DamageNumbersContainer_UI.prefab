@@ -114,5 +114,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bed9d95834e6486b87eb8983b41d1f7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MagicalTower.UI.DamageNumberPresenter
-  _enemyDamageOffset: {x: 0, y: 1, z: 0}
+  _enemyDamageOffset: {x: 0, y: 3, z: 0}
   _towerDamageOffset: {x: 0, y: 3, z: 0}

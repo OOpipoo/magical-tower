@@ -13,11 +13,13 @@ namespace MagicalTower.Systems
 	{
 		private readonly EventBus _eventBus;
 		private readonly TowerHealth _towerHealth;
+		private readonly EffectIndicatorSystem _effectIndicatorSystem;
 
-		public DamageSystem(EventBus eventBus, TowerHealth towerHealth)
+		public DamageSystem(EventBus eventBus, TowerHealth towerHealth, EffectIndicatorSystem effectIndicatorSystem)
 		{
 			_eventBus = eventBus;
 			_towerHealth = towerHealth;
+			_effectIndicatorSystem = effectIndicatorSystem;
 		}
 
 		public void Initialize()
@@ -43,12 +45,16 @@ namespace MagicalTower.Systems
 
 		public void ApplyBurn(Enemy enemy, float damagePerSecond, float duration)
 		{
-			enemy.AddEffect(new BurnEffect(damagePerSecond, duration));
+			var effect = new BurnEffect(damagePerSecond, duration);
+			enemy.AddEffect(effect);
+			_effectIndicatorSystem.Show(enemy, effect.EffectId, effect.Duration);
 		}
 
 		public void ApplySlow(Enemy enemy, float speedMultiplier, float duration)
 		{
-			enemy.AddEffect(new SlowEffect(speedMultiplier, duration));
+			var effect = new SlowEffect(speedMultiplier, duration);
+			enemy.AddEffect(effect);
+			_effectIndicatorSystem.Show(enemy, effect.EffectId, effect.Duration);
 		}
 
 		private void OnEnemyAttackedTower(GameEvents.EnemyAttackedTowerEvent evt)

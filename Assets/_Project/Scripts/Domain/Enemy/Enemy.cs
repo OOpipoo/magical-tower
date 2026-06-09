@@ -9,6 +9,8 @@ namespace MagicalTower.Domain.Enemy
 {
 	public class Enemy : MonoBehaviour
 	{
+		[SerializeField] private Transform _effectHolder;
+
 		private MovementBehaviourBase _movement;
 		private AttackBehaviourBase _attack;
 		private DeathBehaviourBase _death;
@@ -26,6 +28,7 @@ namespace MagicalTower.Domain.Enemy
 
 		public bool IsAlive { get; private set; }
 		public EnemyConfig Config { get; private set; }
+		public Transform EffectHolder => _effectHolder != null ? _effectHolder : transform;
 
 		
 		public void Initialize(

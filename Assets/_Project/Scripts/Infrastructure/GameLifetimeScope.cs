@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using MagicalTower.Core;
 using MagicalTower.Data;
+using MagicalTower.Domain.Effects;
 using MagicalTower.Domain.Enemy;
 using MagicalTower.Domain.Spells.Projectiles;
 using MagicalTower.Domain.Tower;
@@ -16,10 +17,13 @@ namespace MagicalTower.Infrastructure
 	{
 		[Header("Configs")]
 		[SerializeField] private WaveConfig _waveConfig;
+		
+		[Header("Effect Indicators")]
+		[SerializeField] private EffectIndicatorConfig _effectIndicatorConfig;
 
 		[Header("Scene References")]
 		[SerializeField] private Tower _tower;
-
+		[Space]
 		[SerializeField] private TowerHealth _towerHealth;
 		[SerializeField] private Camera _camera;
 
@@ -28,8 +32,10 @@ namespace MagicalTower.Infrastructure
 
 		[Header("Pool Parents")]
 		[SerializeField] private Transform _enemyPoolParent;
-
 		[SerializeField] private Transform _uiPoolParent;
+		[SerializeField] private Transform _effectIndicatorPoolParent;
+
+		
 
 
 		protected override void Configure(IContainerBuilder builder)
@@ -67,6 +73,10 @@ namespace MagicalTower.Infrastructure
 
 			builder.Register(resolver => new ProjectileFactory(
 				_enemyPoolParent), Lifetime.Singleton);
+
+			builder.Register(resolver => new EffectIndicatorSystem(
+				_effectIndicatorConfig,
+				_effectIndicatorPoolParent), Lifetime.Singleton);
 		}
 
 		private void RegisterSystems(IContainerBuilder builder)
